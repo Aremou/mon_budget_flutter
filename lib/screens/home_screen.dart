@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Mon Budget")),
+      // appBar: AppBar(title: Text("Mon Budget")),
       backgroundColor: Colors.white, // Fond du body en blanc
       body: _pages[_currentIndex],
 

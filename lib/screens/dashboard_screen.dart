@@ -98,7 +98,7 @@ class _DashboardPageState extends State<DashboardPage> {
       appBar: AppBar(
         title: Row(
           children: [
-            Icon(Icons.pie_chart),
+            // Icon(Icons.pie_chart),
             SizedBox(width: 8),
             Text('Dashboard'),
           ],

@@ -130,23 +130,44 @@ class _ExpensePageState extends State<ExpensePage> {
                     decoration:
                         InputDecoration(labelText: 'Observation (optionnel)'),
                   ),
+                  SizedBox(height: 8),
+                  datePickerRow(selectedDate, () async {
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    );
+                    if (picked != null) {
+                      setState(() => selectedDate = picked);
+                    }
+                  }),
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        await DBService.update('expenses', {
-                          'id': expense['id'],
-                          'date': selectedDate.toIso8601String(),
-                          'categoryId': int.parse(selectedCategoryId!),
-                          'amount': double.parse(_amountController.text),
-                          'label': _labelController.text,
-                          'note': _noteController.text,
-                        });
-                        Navigator.pop(context);
-                        _loadData();
-                      }
-                    },
-                    child: Text('Modifier'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.edit),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            await DBService.update('expenses', {
+                              'id': expense['id'],
+                              'date': selectedDate.toIso8601String(),
+                              'categoryId': int.parse(selectedCategoryId!),
+                              'amount': double.parse(_amountController.text),
+                              'label': _labelController.text,
+                              'note': _noteController.text,
+                            });
+                            Navigator.pop(context);
+                            _loadData();
+                          }
+                        },
+                        label: Text('Modifier'),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -218,45 +239,45 @@ class _ExpensePageState extends State<ExpensePage> {
                             labelText: 'Observation (optionnel)'),
                       ),
                       SizedBox(height: 8),
+                      datePickerRow(selectedDate, () async {
+                        final picked = await showDatePicker(
+                          context: context,
+                          initialDate: selectedDate,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        );
+                        if (picked != null) {
+                          setState(() => selectedDate = picked);
+                        }
+                      }),
+                      SizedBox(height: 16),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                              'Date : ${selectedDate.toLocal().toString().split(" ")[0]}'),
-                          Spacer(),
-                          TextButton(
+                          ElevatedButton.icon(
+                            icon: Icon(Icons.save),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                            ),
                             onPressed: () async {
-                              final picked = await showDatePicker(
-                                context: context,
-                                initialDate: selectedDate,
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2100),
-                              );
-                              if (picked != null) {
-                                setModalState(() => selectedDate = picked);
+                              if (_formKey.currentState!.validate()) {
+                                await DBService.insert('expenses', {
+                                  'date': selectedDate.toIso8601String(),
+                                  'categoryId': int.parse(selectedCategoryId!),
+                                  'amount': double.tryParse(_amountController
+                                          .text
+                                          .replaceAll(',', '.')) ??
+                                      0.0,
+                                  'label': _labelController.text,
+                                  'note': _noteController.text,
+                                });
+                                Navigator.pop(context);
+                                _loadData();
                               }
                             },
-                            child: Text('Choisir la date'),
-                          )
+                            label: Text('Ajouter'),
+                          ),
                         ],
-                      ),
-                      SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            await DBService.insert('expenses', {
-                              'date': selectedDate.toIso8601String(),
-                              'categoryId': int.parse(selectedCategoryId!),
-                              'amount': double.tryParse(_amountController.text
-                                      .replaceAll(',', '.')) ??
-                                  0.0,
-                              'label': _labelController.text,
-                              'note': _noteController.text,
-                            });
-                            Navigator.pop(context);
-                            _loadData();
-                          }
-                        },
-                        child: Text('Ajouter'),
                       ),
                     ],
                   ),
@@ -349,15 +370,21 @@ class _ExpensePageState extends State<ExpensePage> {
                             orElse: () => {'name': 'Inconnu'})['name'];
                         final date = DateTime.parse(expense['date']);
                         return Card(
+                          color: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          elevation: 2,
+                          elevation: 3,
                           margin:
                               EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                           child: ListTile(
                             title: Text(
-                                '${expense['label']} - ${expense['amount']} FCFA'),
+                              '${expense['label']} - ${expense['amount']} FCFA',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
                             subtitle: Text(
                                 'Catégorie: $categoryName\n Date: ${date.toLocal().toString().split(" ")[0]}\n Note: ${expense['note'] ?? '-'}'),
                             isThreeLine: true,
@@ -406,9 +433,11 @@ class _ExpensePageState extends State<ExpensePage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _addExpense,
-        child: Icon(Icons.add),
+        icon: Icon(Icons.add),
+        label: Text('Ajouter'),
+        backgroundColor: Colors.green,
       ),
     );
   }

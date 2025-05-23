@@ -113,23 +113,32 @@ class _RevenuePageState extends State<RevenuePage> {
                     }
                   }),
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        await DBService.update('revenues', {
-                          'id': r['id'],
-                          'date': selectedDate.toIso8601String(),
-                          'amount': double.tryParse(
-                                  amountController.text.replaceAll(',', '.')) ??
-                              0.0,
-                          'label': labelController.text,
-                          'note': noteController.text,
-                        });
-                        Navigator.pop(context);
-                        _loadData();
-                      }
-                    },
-                    child: Text('Modifier'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.edit),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            await DBService.update('revenues', {
+                              'id': r['id'],
+                              'date': selectedDate.toIso8601String(),
+                              'amount': double.tryParse(amountController.text
+                                      .replaceAll(',', '.')) ??
+                                  0.0,
+                              'label': labelController.text,
+                              'note': noteController.text,
+                            });
+                            Navigator.pop(context);
+                            _loadData();
+                          }
+                        },
+                        label: Text('Modifier'),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -199,25 +208,34 @@ class _RevenuePageState extends State<RevenuePage> {
                       }
                     }),
                     SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await DBService.insert('revenues', {
-                            'date': selectedDate.toIso8601String(),
-                            'amount': double.tryParse(amountController.text
-                                    .replaceAll(',', '.')) ??
-                                0.0,
-                            'label': labelController.text,
-                            'note': noteController.text,
-                          });
-                          labelController.dispose();
-                          amountController.dispose();
-                          noteController.dispose();
-                          Navigator.pop(context);
-                          _loadData();
-                        }
-                      },
-                      child: Text('Ajouter'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.save),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              await DBService.insert('revenues', {
+                                'date': selectedDate.toIso8601String(),
+                                'amount': double.tryParse(amountController.text
+                                        .replaceAll(',', '.')) ??
+                                    0.0,
+                                'label': labelController.text,
+                                'note': noteController.text,
+                              });
+                              labelController.dispose();
+                              amountController.dispose();
+                              noteController.dispose();
+                              Navigator.pop(context);
+                              _loadData();
+                            }
+                          },
+                          label: Text('Ajouter'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -259,7 +277,10 @@ class _RevenuePageState extends State<RevenuePage> {
                       Text(
                         '${_totalFiltered.toStringAsFixed(2)} FCFA',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   ),
@@ -306,14 +327,22 @@ class _RevenuePageState extends State<RevenuePage> {
                         final r = _filteredRevenues[index];
                         final date = DateTime.parse(r['date']);
                         return Card(
+                          color: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          elevation: 2,
+                          elevation: 3,
                           margin:
                               EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                           child: ListTile(
-                            title: Text('${r['label']} - ${r['amount']} FCFA'),
+                            title: Text(
+                              '${r['label']} - ${r['amount']} FCFA',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                             subtitle: Text(
                                 'Date : ${date.toLocal().toString().split(" ")[0]}\n Note : ${r['note'] ?? '-'}'),
                             isThreeLine: true,
@@ -362,9 +391,11 @@ class _RevenuePageState extends State<RevenuePage> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _addRevenue,
-        child: Icon(Icons.add),
+        icon: Icon(Icons.add),
+        label: Text('Ajouter'),
+        backgroundColor: Colors.green,
       ),
     );
   }

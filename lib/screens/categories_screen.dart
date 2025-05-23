@@ -92,25 +92,23 @@ class _CategoryPageState extends State<CategoryPage> {
                         : null,
                   ),
                   SizedBox(height: 16),
-                  ElevatedButton.icon(
-                    icon: Icon(Icons.save),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _addCategory(_controller.text);
-                        Navigator.pop(context);
-                      }
-                    },
-                    label: Text('Ajouter'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.save),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _addCategory(_controller.text);
+                            Navigator.pop(context);
+                          }
+                        },
+                        label: Text('Ajouter'),
+                      ),
+                    ],
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     if (_formKey.currentState!.validate()) {
-                  //       _addCategory(_controller.text);
-                  //       Navigator.pop(context);
-                  //     }
-                  //   },
-                  //   child: Text('Ajouter'),
-                  // ),
                 ],
               ),
             ),
@@ -139,8 +137,10 @@ class _CategoryPageState extends State<CategoryPage> {
                 itemBuilder: (context, index) {
                   final cat = _categories[index];
                   return Card(
+                    color: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     elevation: 3,
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: ListTile(
@@ -191,6 +191,7 @@ class _CategoryPageState extends State<CategoryPage> {
         onPressed: _openAddModal,
         icon: Icon(Icons.add),
         label: Text('Ajouter'),
+        backgroundColor: Colors.green,
       ),
     );
   }

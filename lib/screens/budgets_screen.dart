@@ -78,42 +78,50 @@ class _BudgetPageState extends State<BudgetPage> {
                         val == null ? 'Choisissez une catégorie' : null,
                   ),
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        final duplicate = _budgets
-                            .where((b) =>
-                                b['period'] == selectedPeriod &&
-                                b['id'] != budget['id'])
-                            .toList();
-                        if (duplicate.isNotEmpty) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Attention'),
-                              content: Text(
-                                  'Un autre budget avec cette périodicité existe déjà.'),
-                              actions: [
-                                TextButton(
-                                  child: Text('OK'),
-                                  onPressed: () => Navigator.pop(context),
-                                )
-                              ],
-                            ),
-                          );
-                          return;
-                        }
-                        await DBService.update('budgets', {
-                          'id': budget['id'],
-                          'period': selectedPeriod,
-                          'amount': double.parse(amountController.text),
-                          'categoryId': int.parse(selectedCategoryId!),
-                        });
-                        Navigator.pop(context);
-                        _loadData();
-                      }
-                    },
-                    child: Text('Modifier'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.edit),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            final duplicate = _budgets
+                                .where((b) =>
+                                    b['period'] == selectedPeriod &&
+                                    b['id'] != budget['id'])
+                                .toList();
+                            if (duplicate.isNotEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Attention'),
+                                  content: Text(
+                                      'Un autre budget avec cette périodicité existe déjà.'),
+                                  actions: [
+                                    TextButton(
+                                      child: Text('OK'),
+                                      onPressed: () => Navigator.pop(context),
+                                    )
+                                  ],
+                                ),
+                              );
+                              return;
+                            }
+                            await DBService.update('budgets', {
+                              'id': budget['id'],
+                              'period': selectedPeriod,
+                              'amount': double.parse(amountController.text),
+                              'categoryId': int.parse(selectedCategoryId!),
+                            });
+                            Navigator.pop(context);
+                            _loadData();
+                          }
+                        },
+                        label: Text('Modifier'),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -180,39 +188,47 @@ class _BudgetPageState extends State<BudgetPage> {
                         value == null ? 'Choisissez une catégorie' : null,
                   ),
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        final existing = _budgets
-                            .where((b) => b['period'] == selectedPeriod)
-                            .toList();
-                        if (existing.isNotEmpty) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Attention'),
-                              content: Text(
-                                  'Un autre budget avec cette périodicité existe déjà.'),
-                              actions: [
-                                TextButton(
-                                  child: Text('OK'),
-                                  onPressed: () => Navigator.pop(context),
-                                )
-                              ],
-                            ),
-                          );
-                          return;
-                        }
-                        await DBService.insert('budgets', {
-                          'period': selectedPeriod,
-                          'amount': double.parse(amountController.text),
-                          'categoryId': int.parse(selectedCategoryId!),
-                        });
-                        Navigator.pop(context);
-                        _loadData();
-                      }
-                    },
-                    child: Text('Enregistrer'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.save),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            final existing = _budgets
+                                .where((b) => b['period'] == selectedPeriod)
+                                .toList();
+                            if (existing.isNotEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Attention'),
+                                  content: Text(
+                                      'Un autre budget avec cette périodicité existe déjà.'),
+                                  actions: [
+                                    TextButton(
+                                      child: Text('OK'),
+                                      onPressed: () => Navigator.pop(context),
+                                    )
+                                  ],
+                                ),
+                              );
+                              return;
+                            }
+                            await DBService.insert('budgets', {
+                              'period': selectedPeriod,
+                              'amount': double.parse(amountController.text),
+                              'categoryId': int.parse(selectedCategoryId!),
+                            });
+                            Navigator.pop(context);
+                            _loadData();
+                          }
+                        },
+                        label: Text('Ajouter'),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -243,10 +259,11 @@ class _BudgetPageState extends State<BudgetPage> {
                 (c) => c['id'] == budget['categoryId'],
                 orElse: () => {'name': 'Inconnu'})['name'];
             return Card(
+              color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              elevation: 2,
+              elevation: 3,
               margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: ListTile(
                 title: Text('${budget['period']} - ${budget['amount']} FCFA'),
@@ -291,9 +308,11 @@ class _BudgetPageState extends State<BudgetPage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _addBudget,
-        child: Icon(Icons.add),
+        icon: Icon(Icons.add),
+        label: Text('Ajouter'),
+        backgroundColor: Colors.green,
       ),
     );
   }
