@@ -24,6 +24,30 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   Future<void> _deleteCategory(int id) async {
+    final expenses = await DBService.db!.query(
+      'expenses',
+      where: 'categoryId = ?',
+      whereArgs: [id],
+    );
+
+    // Vérifie si la catégorie est utilisée dans des budgets
+    final budgets = await DBService.db!.query(
+      'budgets',
+      where: 'categoryId = ?',
+      whereArgs: [id],
+    );
+
+    if (expenses.isNotEmpty || budgets.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Impossible de supprimer. Cette catégorie est utilisée dans des dépenses ou des budgets.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     await DBService.delete('categories', id);
     _loadCategories();
   }
@@ -98,14 +122,19 @@ class _CategoryPageState extends State<CategoryPage> {
                       ElevatedButton.icon(
                         icon: Icon(Icons.save),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueAccent),
+                          backgroundColor: Colors.blueAccent,
+                          iconColor: Colors.white,
+                        ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _addCategory(_controller.text);
                             Navigator.pop(context);
                           }
                         },
-                        label: Text('Ajouter'),
+                        label: Text(
+                          'Ajouter',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),

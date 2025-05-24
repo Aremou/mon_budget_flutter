@@ -46,6 +46,8 @@ class DBService {
     return _db!;
   }
 
+  static Database? get db => _db;
+
   static Future<int> insert(String table, Map<String, dynamic> data) async {
     final db = await init();
     return await db.insert(table, data);
