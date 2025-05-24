@@ -266,69 +266,71 @@ class _BudgetPageState extends State<BudgetPage> {
       ),
       body: Container(
         color: Colors.white,
-        child: ListView.builder(
-          itemCount: _budgets.length,
-          itemBuilder: (context, index) {
-            final budget = _budgets[index];
-            final categoryName = _categories.firstWhere(
-                (c) => c['id'] == budget['categoryId'],
-                orElse: () => {'name': 'Inconnu'})['name'];
-            return Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              elevation: 3,
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              child: ListTile(
-                title: Text(
-                  '${budget['period']} - ${budget['amount']} FCFA',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                subtitle: Text('Catégorie : $categoryName'),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () => _editBudget(budget),
+        child: _categories.isEmpty
+            ? Center(child: Text('Aucun budget pour le moment.'))
+            : ListView.builder(
+                itemCount: _budgets.length,
+                itemBuilder: (context, index) {
+                  final budget = _budgets[index];
+                  final categoryName = _categories.firstWhere(
+                      (c) => c['id'] == budget['categoryId'],
+                      orElse: () => {'name': 'Inconnu'})['name'];
+                  return Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () async {
-                        final confirm = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Confirmation'),
-                            content: Text(
-                                'Voulez-vous vraiment supprimer ce budget ?'),
-                            actions: [
-                              TextButton(
-                                  child: Text('Annuler'),
-                                  onPressed: () =>
-                                      Navigator.pop(context, false)),
-                              TextButton(
-                                  child: Text('Supprimer'),
-                                  onPressed: () =>
-                                      Navigator.pop(context, true)),
-                            ],
+                    elevation: 3,
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: ListTile(
+                      title: Text(
+                        '${budget['period']} - ${budget['amount']} FCFA',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      subtitle: Text('Catégorie : $categoryName'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.edit, color: Colors.blue),
+                            onPressed: () => _editBudget(budget),
                           ),
-                        );
-                        if (confirm == true) {
-                          _deleteBudget(budget['id']);
-                        }
-                      },
+                          IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () async {
+                              final confirm = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Confirmation'),
+                                  content: Text(
+                                      'Voulez-vous vraiment supprimer ce budget ?'),
+                                  actions: [
+                                    TextButton(
+                                        child: Text('Annuler'),
+                                        onPressed: () =>
+                                            Navigator.pop(context, false)),
+                                    TextButton(
+                                        child: Text('Supprimer'),
+                                        onPressed: () =>
+                                            Navigator.pop(context, true)),
+                                  ],
+                                ),
+                              );
+                              if (confirm == true) {
+                                _deleteBudget(budget['id']);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addBudget,

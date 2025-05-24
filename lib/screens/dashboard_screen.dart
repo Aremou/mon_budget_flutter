@@ -96,11 +96,16 @@ class _DashboardPageState extends State<DashboardPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
         title: Row(
           children: [
             // Icon(Icons.pie_chart),
             SizedBox(width: 8),
-            Text('Dashboard'),
+            Text(
+              'Dashboard'.toUpperCase(),
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

@@ -150,6 +150,7 @@ class _ExpensePageState extends State<ExpensePage> {
                         icon: Icon(Icons.edit),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
+                          iconColor: Colors.white,
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -165,7 +166,10 @@ class _ExpensePageState extends State<ExpensePage> {
                             _loadData();
                           }
                         },
-                        label: Text('Modifier'),
+                        label: Text(
+                          'Modifier',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -258,6 +262,7 @@ class _ExpensePageState extends State<ExpensePage> {
                             icon: Icon(Icons.save),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blueAccent,
+                              iconColor: Colors.white,
                             ),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
@@ -275,7 +280,10 @@ class _ExpensePageState extends State<ExpensePage> {
                                 _loadData();
                               }
                             },
-                            label: Text('Ajouter'),
+                            label: Text(
+                              'Ajouter',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ],
                       ),

@@ -44,19 +44,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
-      // Bottom AppBar avec 4 éléments (le FAB est le 3e visuel)
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         color: Colors.blueAccent,
         notchMargin: 6,
         child: SizedBox(
-          height: 10,
+          height: 60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(Icons.category, 'Catégories', 0),
               _buildNavItem(Icons.account_balance_wallet, 'Budgets', 1),
-              SizedBox(width: 48), // espace pour le FAB
+              SizedBox(width: 48),
               _buildNavItem(Icons.money_off, 'Dépenses', 3),
               _buildNavItem(Icons.attach_money, 'Revenus', 4),
             ],
