@@ -31,18 +31,23 @@ class _HomeScreenState extends State<HomeScreen> {
       // Bouton central : Dashboard
       floatingActionButton: FloatingActionButton(
         onPressed: () => setState(() => _currentIndex = 2),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.blueAccent,
         elevation: 6,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
-        child: Icon(Icons.bar_chart, size: 30),
+        child: Icon(
+          Icons.bar_chart,
+          size: 30,
+          color: Colors.white,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       // Bottom AppBar avec 4 éléments (le FAB est le 3e visuel)
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
+        color: Colors.blueAccent,
         notchMargin: 6,
         child: SizedBox(
           height: 10,
@@ -69,10 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: isSelected ? Colors.teal : Colors.grey, size: 24),
+          Icon(icon,
+              color: isSelected ? Colors.white : Colors.white60, size: 24),
           Text(label,
               style: TextStyle(
-                  color: isSelected ? Colors.teal : Colors.grey, fontSize: 12)),
+                  color: isSelected ? Colors.white : Colors.white60,
+                  fontSize: 12)),
         ],
       ),
     );

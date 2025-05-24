@@ -119,7 +119,8 @@ class _RevenuePageState extends State<RevenuePage> {
                       ElevatedButton.icon(
                         icon: Icon(Icons.edit),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.blueAccent,
+                          iconColor: Colors.white,
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -136,7 +137,10 @@ class _RevenuePageState extends State<RevenuePage> {
                             _loadData();
                           }
                         },
-                        label: Text('Modifier'),
+                        label: Text(
+                          'Modifier',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -214,8 +218,8 @@ class _RevenuePageState extends State<RevenuePage> {
                         ElevatedButton.icon(
                           icon: Icon(Icons.save),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                          ),
+                              backgroundColor: Colors.blueAccent,
+                              iconColor: Colors.white),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               await DBService.insert('revenues', {
@@ -233,7 +237,10 @@ class _RevenuePageState extends State<RevenuePage> {
                               _loadData();
                             }
                           },
-                          label: Text('Ajouter'),
+                          label: Text(
+                            'Ajouter',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ],
                     ),
@@ -256,7 +263,13 @@ class _RevenuePageState extends State<RevenuePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Revenus')),
+      appBar: AppBar(
+        title: Text(
+          'Revenus'.toUpperCase(),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blueAccent,
+      ),
       body: Column(
         children: [
           Padding(
@@ -391,11 +404,13 @@ class _RevenuePageState extends State<RevenuePage> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: _addRevenue,
-        icon: Icon(Icons.add),
-        label: Text('Ajouter'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueAccent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }

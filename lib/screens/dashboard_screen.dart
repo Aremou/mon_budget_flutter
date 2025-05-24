@@ -84,7 +84,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
       bars.add(BarChartGroupData(x: index++, barRods: [
         BarChartRodData(toY: spent, color: Colors.redAccent, width: 8),
-        BarChartRodData(toY: budgetAmount, color: Colors.green, width: 8),
+        BarChartRodData(toY: budgetAmount, color: Colors.blueAccent, width: 8),
       ]));
     }
     return bars;
@@ -205,7 +205,8 @@ class _DashboardPageState extends State<DashboardPage> {
                           SizedBox(width: 4),
                           Text("Dépenses"),
                           SizedBox(width: 16),
-                          Icon(Icons.square, color: Colors.green, size: 16),
+                          Icon(Icons.square,
+                              color: Colors.blueAccent, size: 16),
                           SizedBox(width: 4),
                           Text("Budgets"),
                         ],

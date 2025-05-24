@@ -98,7 +98,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       ElevatedButton.icon(
                         icon: Icon(Icons.save),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green),
+                            backgroundColor: Colors.blueAccent),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _addCategory(_controller.text);
@@ -127,7 +127,13 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Catégories')),
+      appBar: AppBar(
+        title: Text(
+          'Catégories'.toUpperCase(),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blueAccent,
+      ),
       body: Container(
         color: Colors.white,
         child: _categories.isEmpty
@@ -144,7 +150,7 @@ class _CategoryPageState extends State<CategoryPage> {
                     elevation: 3,
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: ListTile(
-                      leading: Icon(Icons.label, color: Colors.green),
+                      leading: Icon(Icons.label, color: Colors.blueAccent),
                       title: Text(cat.name),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -187,11 +193,13 @@ class _CategoryPageState extends State<CategoryPage> {
                 },
               ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: _openAddModal,
-        icon: Icon(Icons.add),
-        label: Text('Ajouter'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueAccent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }

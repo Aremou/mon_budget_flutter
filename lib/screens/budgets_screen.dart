@@ -84,7 +84,9 @@ class _BudgetPageState extends State<BudgetPage> {
                       ElevatedButton.icon(
                         icon: Icon(Icons.edit),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green),
+                          backgroundColor: Colors.blueAccent,
+                          iconColor: Colors.white,
+                        ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             final duplicate = _budgets
@@ -119,7 +121,10 @@ class _BudgetPageState extends State<BudgetPage> {
                             _loadData();
                           }
                         },
-                        label: Text('Modifier'),
+                        label: Text(
+                          'Modifier',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -194,7 +199,8 @@ class _BudgetPageState extends State<BudgetPage> {
                       ElevatedButton.icon(
                         icon: Icon(Icons.save),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green),
+                            backgroundColor: Colors.blueAccent,
+                            iconColor: Colors.white),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             final existing = _budgets
@@ -226,7 +232,10 @@ class _BudgetPageState extends State<BudgetPage> {
                             _loadData();
                           }
                         },
-                        label: Text('Ajouter'),
+                        label: Text(
+                          'Ajouter',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -248,7 +257,13 @@ class _BudgetPageState extends State<BudgetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Budgets')),
+      appBar: AppBar(
+        title: Text(
+          'Budgets'.toUpperCase(),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blueAccent,
+      ),
       body: Container(
         color: Colors.white,
         child: ListView.builder(
@@ -266,7 +281,14 @@ class _BudgetPageState extends State<BudgetPage> {
               elevation: 3,
               margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: ListTile(
-                title: Text('${budget['period']} - ${budget['amount']} FCFA'),
+                title: Text(
+                  '${budget['period']} - ${budget['amount']} FCFA',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
                 subtitle: Text('Catégorie : $categoryName'),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -308,11 +330,13 @@ class _BudgetPageState extends State<BudgetPage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: _addBudget,
-        icon: Icon(Icons.add),
-        label: Text('Ajouter'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueAccent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }

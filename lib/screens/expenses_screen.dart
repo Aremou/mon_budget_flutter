@@ -149,7 +149,7 @@ class _ExpensePageState extends State<ExpensePage> {
                       ElevatedButton.icon(
                         icon: Icon(Icons.edit),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.blueAccent,
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -257,7 +257,7 @@ class _ExpensePageState extends State<ExpensePage> {
                           ElevatedButton.icon(
                             icon: Icon(Icons.save),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
+                              backgroundColor: Colors.blueAccent,
                             ),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
@@ -299,7 +299,13 @@ class _ExpensePageState extends State<ExpensePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Dépenses')),
+      appBar: AppBar(
+        title: Text(
+          'Dépenses'.toUpperCase(),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blueAccent,
+      ),
       body: Column(
         children: [
           Padding(
@@ -433,11 +439,13 @@ class _ExpensePageState extends State<ExpensePage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: _addExpense,
-        icon: Icon(Icons.add),
-        label: Text('Ajouter'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueAccent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
